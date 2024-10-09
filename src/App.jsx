@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="flex">
+    <div className="flex xl:w-9/12 xl:mx-auto">
       <Sidebar />
       <Routes>
         <Route path="/" element={<Homepage />} />

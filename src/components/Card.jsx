@@ -1,6 +1,7 @@
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import PersonIcon from '@mui/icons-material/Person';
+import { Link } from "react-router-dom";
 import { useState } from 'react';
 
 function Card({recipe}){
@@ -26,7 +27,7 @@ function Card({recipe}){
 
     return(
         <div className="flex flex-col rounded-md relative">
-            <a href="" className="relative h-36">
+            <Link to="/detailCard" state={{ recipeData: recipe}} className="relative h-36">
                 <div className="skeleton absolute inset-0" />
                 <img src={recipe.image} alt="food" className="rounded-md w-full h-full object-cover cursor-pointer opacity-0 transition-opacity duration-300" 
                     onLoad={(evt)=> { 
@@ -34,14 +35,14 @@ function Card({recipe}){
                     evt.currentTarget.previousElementSibling.style.display = "none";
                 }}/>
 
-                <div className="absolute left-2 bottom-2 text-xs gap-1 flex items-center rounded-full bg-slate-700 py-1 px-2">
+                <div className="absolute top-2 left-2 text-xs gap-1 flex items-center rounded-full bg-slate-700 py-1 px-2">
                     <PersonIcon sx={{ fontSize: 12, color: '#FFF' }} />
                     <span className="text-white">
                         {Math.trunc(recipe.yield)} servings
                     </span>
                 </div>
 
-                <div className="absolute top-2 right-2 p-1 rounded-full bg-slate-700 w-8 h-8 flex items-center justify-center"
+                <div className="absolute bottom-2 right-2 p-1 rounded-full bg-slate-700 w-8 h-8 flex items-center justify-center"
                     onClick={(evt)=>{
                         evt.preventDefault();
                         bookmarkRecipe();
@@ -51,7 +52,7 @@ function Card({recipe}){
                     {!isBookmark && <BookmarkBorderIcon fontSize='small' className='text-white hover:fill-yellow-500 hover:text-yellow-500' />}
                     {isBookmark && <BookmarkIcon fontSize='small' className='text-yellow-500 hover:text-yellow-500' />}
                 </div>
-            </a>
+            </Link>
             
             <div className="my-1">
                 <h3 className="text-sm text-gray-500">{

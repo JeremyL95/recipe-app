@@ -1,18 +1,29 @@
-import Sidebar from './components/Sidebar';
 import Homepage from './components/Homepage';
 import BookmarkPage from './components/BookmarkPage';
-import { Route, Routes } from 'react-router-dom';
+import DetailCard from './components/DetailCard';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Homepage />
+  },
+  {
+    path: "/bookmarks",
+    element: <BookmarkPage />
+  },
+  {
+    path: "/detailCard",
+    element: <DetailCard />
+  }
+])
 
 function App() {
   return (
-    <div className="flex xl:w-9/12 xl:mx-auto">
-      <Sidebar />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/bookmarks" element={<BookmarkPage />} />
-      </Routes>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   )
 }
 
-export default App
+export default App;

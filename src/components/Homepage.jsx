@@ -1,4 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
+import Sidebar from './Sidebar.jsx';
 import Card from './Card.jsx';
 import Carousel from "./Carousel.jsx";
 import NoResultFound from "./NoResultFound.jsx";
@@ -71,7 +72,7 @@ function Homepage(){
                 <form onSubmit={searchRecipe}>
                     <label className="input shadow-md flex items-center gap-1">
                         <SearchIcon color="disabled" />
-                        <input type="text" className="text-sm md:text-md grow" placeholder="What shall we cook today?" />
+                        <input type="text" className="text-base md:text-md grow" placeholder="What shall we cook today?" />
                     </label>
                 </form>
 
@@ -131,4 +132,13 @@ function Homepage(){
     )
 }
 
-export default Homepage;
+function RenderHomepage(){
+    return (
+        <div className="flex xl:w-9/12 xl:mx-auto">
+            <Sidebar />
+            <Homepage />
+        </div>
+    )
+}
+
+export default RenderHomepage;

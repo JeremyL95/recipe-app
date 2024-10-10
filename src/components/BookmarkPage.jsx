@@ -1,4 +1,5 @@
 import Card from "./Card.jsx";
+import Sidebar from "./Sidebar.jsx";
 import NoResultFound from "./NoResultFound.jsx";
 import { Link } from "react-router-dom";
 
@@ -40,4 +41,13 @@ function BookmarkPage(){
     )
 }
 
-export default BookmarkPage;
+function BookmarkPageRender(){
+    return (
+        <div className="flex xl:w-9/12 xl:mx-auto">
+            <Sidebar />
+            <BookmarkPage />
+        </div>
+    )
+}
+
+export default BookmarkPageRender;

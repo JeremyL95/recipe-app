@@ -1,20 +1,29 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import Sidebar from './Sidebar.jsx';
-import PersonIcon from '@mui/icons-material/Person';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+
 
 function DetailCard(){
     const location = useLocation();
     const { recipeData } = location.state;
-    const [isDone, setIsDone] = useState(false);
+    const [isDone, setIsDone] = useState([]);
     const [isBookmark, setIsBookmark] = useState(localStorage.getItem('bookmarks')?.includes(recipeData.label));
     
-    function handleClick(){
-        setIsDone((prevValue) => {
-            return !prevValue
-        });
+    function handleClick(evt){
+        let isSelected = evt.target.checked;
+        let selectedLabel = evt.target.value;
+
+        if(isSelected){
+            setIsDone([...isDone, selectedLabel]);
+        }else{
+            setIsDone((currentID)=>{
+                return currentID.filter((id)=> {
+                    return id !== selectedLabel
+                });
+            });
+        }
     }
 
     function bookmarkRecipe(){
@@ -33,8 +42,17 @@ function DetailCard(){
         
         localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
     }
-    
-    console.log(recipeData);
+
+    function checkVowel(str){
+        [str] = str
+        let regex = /.*[aeiouAEIOU]$/
+
+        if(regex.test(str.charAt(0))){
+            return `An ${str.charAt(0).toUpperCase() + str.slice(1)}`
+        }else{
+            return `A ${str.charAt(0).toUpperCase() + str.slice(1)}`
+        }
+    }
 
     return(
         <div className="bg-white mt-12 md:mt-0 px-3 py-5 md:p-10 flex-1">
@@ -46,7 +64,7 @@ function DetailCard(){
                                 <img className="rounded-md w-full h-72 md:h-auto object-cover" src={recipeData.image} alt="recipe-image" />
                             </div>
 
-                            <div className="absolute top-2 right-2 p-1 rounded-full bg-slate-700 w-8 h-8 flex items-center justify-center"
+                            <div className="absolute md:top-2 bottom-2 right-2 p-1 rounded-full bg-slate-700 w-8 h-8 flex items-center justify-center"
                                 onClick={(evt)=>{
                                     evt.preventDefault();
                                     bookmarkRecipe();
@@ -61,17 +79,17 @@ function DetailCard(){
                         <div className="md:mx-5">
                             <h2 className="font-bold text-xl text-black pt-3 md:pt-0">{recipeData.label}</h2>
                             
-                            <p className="italic">by {recipeData.source}</p>
+                            <p className="text-sm italic">{checkVowel(recipeData.cuisineType)} food by {recipeData.source}</p>
 
                             <div>
                                 <h3 className="font-bold text-black pt-5 pb-2">Ingredients</h3>
 
                                 <ul>
-                                    {recipeData.ingredientLines && recipeData.ingredientLines .map((ingredient, index)=>{
+                                    {recipeData.ingredientLines.map((ingredient, index)=>{
                                             return(
-                                                <li key={index} className={`${isDone ? 'line-through text-gray-400' : ''}`}>
-                                                    <input type="checkbox" id={index} className="accent-yellow-500 text-white" checked={isDone} onChange={handleClick}/>
-                                                    <label className="ml-3">
+                                                <li key={index} className={`${isDone.includes(ingredient) ? 'line-through text-gray-400' : ''}`}>
+                                                    <label>
+                                                        <input name="ingredients" type="checkbox" className="accent-yellow-500 text-white mr-3" value={ingredient} checked={isDone.includes(ingredient)} onChange={handleClick} />
                                                         {ingredient}
                                                     </label>
                                                 </li>
